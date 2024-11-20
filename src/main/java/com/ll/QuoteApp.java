@@ -1,12 +1,18 @@
 package com.ll;
 
+import com.ll.utils.QuoteService;
+
 import java.util.Scanner;
 
 public class QuoteApp {
 
     boolean running = true;
     Scanner sc = new Scanner(System.in);
-    QuoteController quoteController = new QuoteController();
+
+    QuoteStore quoteStore = new QuoteStore();
+    QuoteService quoteService = new QuoteService(quoteStore);
+    QuoteController quoteController = new QuoteController(quoteService);
+
 
     public void run() {
 

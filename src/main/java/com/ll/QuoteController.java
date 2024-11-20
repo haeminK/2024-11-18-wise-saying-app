@@ -6,7 +6,11 @@ import java.util.Scanner;
 
 public class QuoteController {
 
-    QuoteService quoteService = new QuoteService();
+    QuoteService quoteService;
+
+    public QuoteController(QuoteService quoteService) {
+        this.quoteService = quoteService;
+    }
 
     public void saveQuote(Scanner sc) {
         System.out.print("명언: ");
@@ -37,7 +41,7 @@ public class QuoteController {
             return;
         }
 
-        Quote foundQuote = QuoteStore.find(id);
+        Quote foundQuote = quoteService.findQuote(id);
 
         System.out.println(String.format("명언(기존) : %s", foundQuote.getSentence()));
         System.out.print("명언: ");
@@ -61,7 +65,7 @@ public class QuoteController {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        for (Quote quote : QuoteStore.findAll()) {
+        for (Quote quote : quoteService.findAllQuotes()) {
             System.out.println(
                     String.format(
                             "%d / %s / %s",

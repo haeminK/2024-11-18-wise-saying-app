@@ -10,25 +10,25 @@ public class QuoteStore {
 
     private static final HashMap<Integer, Quote> store = new HashMap<>();
 
-    public static void save(Quote quote) {
+    public void save(Quote quote) {
         quote.setId(getCurrentId());
         store.put(quote.getId(), quote);
     }
 
-    public static void delete(Integer id) {
+    public void delete(Integer id) {
         store.remove(id);
     }
 
-    public static void update(Quote quote) {
+    public void update(Quote quote) {
         store.put(quote.getId(), quote);
     }
 
-    public static Quote find(int id) {
+    public Quote find(int id) {
         if (!store.containsKey(id)) return null;
         return store.get(id);
     }
 
-    public static List<Quote> findAll() {
+    public List<Quote> findAll() {
         List<Quote> list = new ArrayList<Quote>();
 
         store.forEach((id, quote) -> {
