@@ -30,5 +30,15 @@ public class FileManager {
 
     }
 
+    public static void delete(String path) {
+
+        File file = new File(path);
+
+        if (!file.delete()) {
+            throw new RuntimeException("파일삭제 실패");
+        }
+
+    }
+
 
 }

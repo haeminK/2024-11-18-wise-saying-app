@@ -35,6 +35,6 @@ public class QuoteService {
         if (id == null) throw new RuntimeException();
         if (quoteStore.find(id) == null) throw new RuntimeException();
 
-        quoteStore.update(quote);
+        quoteStore.save(quote);
     }
 }
