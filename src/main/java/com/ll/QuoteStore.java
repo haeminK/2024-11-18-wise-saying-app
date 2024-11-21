@@ -1,17 +1,18 @@
 package com.ll;
 
+import com.ll.utils.FileManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class QuoteStore {
 
-    private static Integer id = 0;
 
     private static final HashMap<Integer, Quote> store = new HashMap<>();
 
     public void save(Quote quote) {
-        quote.setId(getCurrentId());
+        quote.setId(getAndUpdateCurrentId());
         store.put(quote.getId(), quote);
     }
 
@@ -38,12 +39,17 @@ public class QuoteStore {
         return list;
     }
 
-    private static Integer getCurrentId() {
-        increaseId();
+    private static Integer getAndUpdateCurrentId() {
+        String strId = FileManager.read("./src/main/java/com/ll/db/wiseSaying/lastId.txt");
+        int id = (strId == null) ? 0 : Integer.parseInt(strId);
+        updateId(id+1);
+
         return id;
     }
 
-    private static void increaseId() {
-        ++id;
+    private static void updateId(int id) {
+        FileManager.write("./src/main/java/com/ll/db/wiseSaying/lastId.txt", String.valueOf(id));
     }
+
+
 }

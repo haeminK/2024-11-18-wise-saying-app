@@ -1,7 +1,5 @@
 package com.ll;
 
-import com.ll.utils.QuoteService;
-
 import java.util.Scanner;
 
 public class QuoteController {
