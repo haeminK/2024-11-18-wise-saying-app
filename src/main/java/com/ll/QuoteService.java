@@ -45,7 +45,7 @@ public class QuoteService {
     }
 
     public void buildQuotes() {
-        quoteStore(quoteStore.findAll());
+        quoteStore.saveBuild(quoteStore.findAll());
     }
 
 }

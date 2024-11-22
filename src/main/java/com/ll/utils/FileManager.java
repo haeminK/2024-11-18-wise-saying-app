@@ -56,7 +56,13 @@ public class FileManager {
     }
 
 
+    public void writeBySubPath(String subPath, String content) {
+        write(basePath+"/"+subPath+fileExtension, content);
+    }
 
+    public String readBySubPath(String subPath) {
+        return read(basePath+"/"+subPath+fileExtension);
+    }
 
     public void write(String filePath, String content) {
 

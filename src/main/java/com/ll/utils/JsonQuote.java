@@ -2,11 +2,41 @@ package com.ll.utils;
 
 import com.ll.Quote;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class JsonQuote {
 
+    public static void main(String[] args) {
+        JsonQuote jq = new JsonQuote();
+        Quote q1 = new Quote();
+        q1.setId(1);
+        q1.setSentence("Asf s");
+        q1.setAuthor("SDf");
+
+        Quote q2 = new Quote();
+        q2.setId(2);
+        q2.setSentence("rntrn");
+        q2.setAuthor("aa");
+
+        List<Quote> list = new ArrayList<>();
+        Collections.addAll(list, q1, q2);
+        System.out.println(jq.quotesToJsons(list));
+    }
 
     public static String quoteToJson(Quote quote) {
-        return String.format("{\n\"id\": %d,\n\"content\": \"%s\",\n\"author\": \"%s\"\n}",
+        return quoteToJson(quote, 0);
+    }
+
+    public static String quoteToJson(Quote quote, int depth) {
+        String tab = "\t".repeat(depth);
+        String contentTab = "\t".repeat(depth+1);
+        return String.format(tab + "{\n" +
+                             contentTab + "\"id\": %d,\n" +
+                             contentTab + "\"content\": \"%s\",\n" +
+                             contentTab +"\"author\": \"%s\"\n" +
+                             tab + "}",
                                 quote.getId(),
                                 quote.getSentence(),
                                 quote.getAuthor());
@@ -29,5 +59,19 @@ public class JsonQuote {
         quote.setAuthor(author);
 
         return quote;
+    }
+
+    public static String quotesToJsons(List<Quote> quotes) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Quote quote : quotes) {
+            sb.append("\n");
+            sb.append(quoteToJson(quote, 1));
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append("\n]");
+
+        return sb.toString();
     }
 }

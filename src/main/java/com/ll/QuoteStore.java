@@ -11,8 +11,6 @@ import java.util.List;
 public class QuoteStore {
 
 
-
-
     private final FileManager fileManager;
 
     public QuoteStore(FileManager fileManager) {
@@ -48,5 +46,9 @@ public class QuoteStore {
         }
 
         return list;
+    }
+
+    public void saveBuild(List<Quote> quotes) {
+        fileManager.writeBySubPath("data", JsonQuote.quotesToJsons(quotes));
     }
 }

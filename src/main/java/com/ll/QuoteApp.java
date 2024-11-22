@@ -48,6 +48,10 @@ public class QuoteApp {
                 case "수정":
                     quoteController.updateQuote(sc, id);
                     break;
+
+                case "빌드":
+                    quoteController.buildQuotes();
+                    break;
             }
         }
 

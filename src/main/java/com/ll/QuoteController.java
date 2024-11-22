@@ -82,12 +82,11 @@ public class QuoteController {
 
     public void buildQuotes() {
         try {
-
+            quoteService.buildQuotes();
             System.out.println("data.json 파일의 내용이 갱신되었습니다.");
         } catch (Exception e) {
             throw e;
         }
-
     }
 
 }
