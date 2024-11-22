@@ -8,7 +8,58 @@ import java.nio.file.Paths;
 
 public class FileManager {
 
-    public static void write(String filePath, String content) {
+    private final String basePath;
+    private final String fileExtension;
+    private final String idPath;
+
+
+    public FileManager(String basePath, String fileExtension) {
+        this.basePath = basePath;
+        this.fileExtension = fileExtension;
+        this.idPath = basePath + "/lastId.txt";
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+
+    private String getDbPathById(String subPath, int id) {
+        return "%s/%s/%s%s".formatted(basePath, subPath, id, fileExtension);
+    }
+
+    public int updateAndGetCurrentId() {
+        String strId = read(idPath);
+        int id = (strId == null) ? 0 : Integer.parseInt(strId);
+        updateId(id+1);
+
+        return id;
+    }
+
+    private void updateId(int id) {
+        write(idPath, String.valueOf(id));
+    }
+
+
+    public void writeById(String subPath, int id, String content) {
+        write(getDbPathById(subPath, id), content);
+    }
+
+
+    public String readById(String subPath, int id) {
+        return read(getDbPathById(subPath, id));
+    }
+
+
+    public void deleteById(String subPath, int id) {
+        delete(getDbPathById(subPath, id));
+    }
+
+
+
+
+    public void write(String filePath, String content) {
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))){
             writer.write(content);
         } catch (IOException e) {
@@ -16,7 +67,8 @@ public class FileManager {
         }
     }
 
-    public static String read(String filePath) {
+
+    public String read(String filePath) {
         Path path = Paths.get(filePath);
         try {
             return Files.readString(path);
@@ -26,11 +78,10 @@ public class FileManager {
             e.printStackTrace();
             return null;
         }
-
-
     }
 
-    public static void delete(String path) {
+
+    public void delete(String path) {
 
         File file = new File(path);
 

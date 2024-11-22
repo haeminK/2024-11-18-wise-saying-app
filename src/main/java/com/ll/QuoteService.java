@@ -4,7 +4,7 @@ import java.util.List;
 
 public class QuoteService {
 
-    QuoteStore quoteStore = new QuoteStore();
+    QuoteStore quoteStore;
 
     public QuoteService(QuoteStore quoteStore) {
         this.quoteStore = quoteStore;
@@ -22,19 +22,30 @@ public class QuoteService {
         quoteStore.save(quote);
     }
 
-    public void deleteQuote(Integer id) {
-        if (id == null) throw new RuntimeException();
-        if (quoteStore.find(id) == null) throw new RuntimeException();
+    public void deleteQuote(int id) {
+        if (quoteStore.find(id) == null) {
+            System.out.println("명언이 없습니다");
+            return;
+        };
 
         quoteStore.delete(id);
+        System.out.println(String.format("%d번 명언이 삭제되었습니다.", id));
     }
 
     public void updateQuote(Quote quote) {
-        Integer id = quote.getId();
+        int id = quote.getId();
 
-        if (id == null) throw new RuntimeException();
-        if (quoteStore.find(id) == null) throw new RuntimeException();
+        if (quoteStore.find(id) == null) {
+            System.out.println("명언이 없습니다");
+            return;
+        }
 
         quoteStore.save(quote);
+        System.out.println(String.format("%d번 명언이 수정되었습니다.", id));
     }
+
+    public void buildQuotes() {
+        quoteStore(quoteStore.findAll());
+    }
+
 }

@@ -8,7 +8,7 @@
         <option name="gradleHome" value="" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../../데브코스/2024-11-18-wise-saying-app" />
+            <option value="$PROJECT_DIR$/../데브코스" />
           </set>
         </option>
       </GradleProjectSettings>

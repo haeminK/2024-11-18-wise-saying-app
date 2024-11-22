@@ -1,7 +1,7 @@
 package com.ll;
 
 import com.ll.utils.FileManager;
-import com.ll.utils.JsonParser;
+import com.ll.utils.JsonQuote;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,60 +11,42 @@ import java.util.List;
 public class QuoteStore {
 
 
-    private static final HashMap<Integer, Quote> store = new HashMap<>();
-    private final JsonParser jp = new JsonParser();
 
+
+    private final FileManager fileManager;
+
+    public QuoteStore(FileManager fileManager) {
+        this.fileManager = fileManager;
+    }
 
     public void save(Quote quote) {
-        quote.setId(updateAndGetCurrentId());
-        FileManager.write(getJsonPath(quote.getId()),
-                jp.quoteToJson(quote));
+        quote.setId(fileManager.updateAndGetCurrentId());
+        fileManager.writeById("", quote.getId(), JsonQuote.quoteToJson(quote));
     }
 
     public void delete(Integer id) {
-        FileManager.delete(getJsonPath(id));
+        fileManager.deleteById("", id);
     }
 
-//    public void update(Quote quote) {
-//
-//    }
-
     public Quote find(int id) {
-        String foundStr = FileManager.read(getJsonPath(id));
-        return (foundStr != null) ? jp.jsonToQuote(foundStr) : null;
+        String foundStr = fileManager.readById("", id);
+        return (foundStr != null) ? JsonQuote.jsonToQuote(foundStr) : null;
     }
 
     public List<Quote> findAll() {
         List<Quote> list = new ArrayList<Quote>();
 
-        String dirPaths = "./src/main/java/com/ll/db/wiseSaying";
+        String dirPaths = fileManager.getBasePath();
         File dir = new File(dirPaths);
         String[] filenames = dir.list();
 
         for (String filename : filenames) {
             if (!filename.endsWith(".json")) continue;
             String path = dirPaths+"/"+filename;
-            Quote q = jp.jsonToQuote(FileManager.read(path));
+            Quote q = JsonQuote.jsonToQuote(fileManager.read(path));
             list.add(q);
         }
 
         return list;
     }
-
-    private static int updateAndGetCurrentId() {
-        String strId = FileManager.read("./src/main/java/com/ll/db/wiseSaying/lastId.txt");
-        int id = (strId == null) ? 0 : Integer.parseInt(strId);
-        updateId(id+1);
-
-        return id;
-    }
-
-    private static void updateId(int id) {
-        FileManager.write("./src/main/java/com/ll/db/wiseSaying/lastId.txt", String.valueOf(id));
-    }
-
-    private String getJsonPath(int id) {
-        return "./src/main/java/com/ll/db/wiseSaying/%s.json".formatted(id);
-    }
-
 }

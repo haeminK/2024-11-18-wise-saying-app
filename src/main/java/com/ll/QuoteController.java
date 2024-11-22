@@ -30,7 +30,7 @@ public class QuoteController {
         }
 
         quoteService.deleteQuote(id);
-        System.out.println(String.format("%d번 명언이 삭제되었습니다.", id));
+
     }
 
     public void updateQuote(Scanner sc, Integer id) {
@@ -40,6 +40,11 @@ public class QuoteController {
         }
 
         Quote foundQuote = quoteService.findQuote(id);
+
+        if (foundQuote == null) {
+            System.out.println("명언이 없습니다");
+            return;
+        }
 
         System.out.println(String.format("명언(기존) : %s", foundQuote.getSentence()));
         System.out.print("명언: ");
@@ -56,7 +61,7 @@ public class QuoteController {
 
         quoteService.updateQuote(updatedQuote);
 
-        System.out.println(String.format("%d번 명언이 수정되었습니다.", id));
+
     }
 
     public void quoteList() {
@@ -73,6 +78,16 @@ public class QuoteController {
             );
         }
         System.out.println();
+    }
+
+    public void buildQuotes() {
+        try {
+
+            System.out.println("data.json 파일의 내용이 갱신되었습니다.");
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 
 }

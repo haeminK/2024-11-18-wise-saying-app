@@ -2,30 +2,17 @@ package com.ll.utils;
 
 import com.ll.Quote;
 
-import java.util.Arrays;
+public class JsonQuote {
 
-public class JsonParser {
 
-    public static void main(String[] args) {
-        JsonParser jp = new JsonParser();
-        Quote quote = new Quote();
-        quote.setId(1);
-        quote.setAuthor("asdf");
-        quote.setSentence("sentece");
-        String s = jp.quoteToJson(quote);
-        System.out.println(s);
-        Quote q = jp.jsonToQuote(s);
-        System.out.println("%d %s %s".formatted(q.getId(), q.getAuthor(), q.getSentence()));
-    }
-
-    public String quoteToJson(Quote quote) {
+    public static String quoteToJson(Quote quote) {
         return String.format("{\n\"id\": %d,\n\"content\": \"%s\",\n\"author\": \"%s\"\n}",
                                 quote.getId(),
                                 quote.getSentence(),
                                 quote.getAuthor());
     }
 
-    public Quote jsonToQuote(String json) {
+    public static Quote jsonToQuote(String json) {
         String[] strings = json.substring(1, json.length()-1).split(",");
         Quote quote = new Quote();
 

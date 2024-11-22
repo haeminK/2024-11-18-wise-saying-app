@@ -1,7 +1,7 @@
 package com.ll;
 
 public class Quote {
-    Integer id;
+    int id;
     String sentence;
     String author;
 
@@ -17,7 +17,7 @@ public class Quote {
         return sentence;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

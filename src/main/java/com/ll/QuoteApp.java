@@ -1,5 +1,8 @@
 package com.ll;
 
+
+import com.ll.utils.FileManager;
+
 import java.util.Scanner;
 
 public class QuoteApp {
@@ -7,7 +10,8 @@ public class QuoteApp {
     boolean running = true;
     Scanner sc = new Scanner(System.in);
 
-    QuoteStore quoteStore = new QuoteStore();
+    FileManager fileManager = new FileManager("./src/main/java/com/ll/db/wiseSaying", ".json");
+    QuoteStore quoteStore = new QuoteStore(fileManager);
     QuoteService quoteService = new QuoteService(quoteStore);
     QuoteController quoteController = new QuoteController(quoteService);
 
