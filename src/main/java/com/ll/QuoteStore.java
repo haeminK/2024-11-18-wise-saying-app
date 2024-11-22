@@ -19,6 +19,10 @@ public class QuoteStore {
 
     public void save(Quote quote) {
         quote.setId(fileManager.updateAndGetCurrentId());
+        update(quote);
+    }
+
+    public void update(Quote quote) {
         fileManager.writeById("", quote.getId(), JsonQuote.quoteToJson(quote));
     }
 
@@ -33,15 +37,14 @@ public class QuoteStore {
 
     public List<Quote> findAll() {
         List<Quote> list = new ArrayList<Quote>();
+        File dir = new File(fileManager.getBasePath());
 
-        String dirPaths = fileManager.getBasePath();
-        File dir = new File(dirPaths);
-        String[] filenames = dir.list();
+        for (String filename : dir.list()) {
+            String id = filename.substring(0, filename.lastIndexOf('.'));
+            if (!filename.endsWith(".json") || !id.matches("\\d+"))
+                continue;
 
-        for (String filename : filenames) {
-            if (!filename.endsWith(".json")) continue;
-            String path = dirPaths+"/"+filename;
-            Quote q = JsonQuote.jsonToQuote(fileManager.read(path));
+            Quote q = JsonQuote.jsonToQuote(fileManager.readById("", Integer.parseInt(id)));
             list.add(q);
         }
 

@@ -1,5 +1,6 @@
 package com.ll;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class QuoteController {
@@ -29,8 +30,14 @@ public class QuoteController {
             return;
         }
 
-        quoteService.deleteQuote(id);
 
+        try {
+            quoteService.deleteQuote(id);
+        } catch (NoSuchElementException e) {
+            System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
+            return;
+        }
+        System.out.println(String.format("%d번 명언이 삭제되었습니다.", id));
     }
 
     public void updateQuote(Scanner sc, Integer id) {
@@ -59,9 +66,14 @@ public class QuoteController {
         updatedQuote.setAuthor(author);
         updatedQuote.setSentence(sentence);
 
-        quoteService.updateQuote(updatedQuote);
+        try {
+            quoteService.updateQuote(updatedQuote);
+        } catch (NoSuchElementException e) {
+            System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
+            return;
+        }
 
-
+        System.out.println(String.format("%d번 명언이 수정되었습니다.", id));
     }
 
     public void quoteList() {

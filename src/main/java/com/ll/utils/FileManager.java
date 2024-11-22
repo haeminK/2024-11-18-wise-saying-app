@@ -64,6 +64,10 @@ public class FileManager {
         return read(basePath+"/"+subPath+fileExtension);
     }
 
+    public String readBySubPathAndExtension(String path) {
+        return read(basePath+"/"+path);
+    }
+
     public void write(String filePath, String content) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))){
